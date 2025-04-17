@@ -1,0 +1,697 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2563eb;
+    --primary-light: #60a5fa;
+    --background-color: #0f172a;
+    --text-color: #f8fafc;
+    --typing-duration: 0.15s;
+    --discord-color: #5865F2;
+    --error-color: #ef4444;
+}
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes text-focus {
+    0% { letter-spacing: -0.5px; }
+    50% { letter-spacing: 0.5px; }
+    100% { letter-spacing: normal; }
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(0) scale(0.95);
+        filter: blur(5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    transition: height 0.3s ease;
+}
+
+#modern-input {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-color);
+    outline: none;
+    transition: all var(--typing-duration) cubic-bezier(0.4, 0, 0.2, 1);
+    caret-color: var(--primary-color);
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    text-align: center;
+}
+
+#modern-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1),
+                0 0 20px rgba(96, 165, 250, 0.2);
+}
+
+#modern-input::placeholder {
+    color: transparent;
+}
+
+#modern-input:focus {
+    animation: text-focus 0.3s ease-out;
+}
+
+.input-group label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+    transition: all var(--typing-duration) cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+}
+
+#modern-input:focus ~ label,
+#modern-input:not(:placeholder-shown) ~ label {
+    top: 0;
+    left: 12px;
+    font-size: 12px;
+    padding: 0 4px;
+    background-color: var(--background-color);
+    color: var(--primary-light);
+    transform: translateY(-50%) scale(0.9);
+}
+
+#modern-input:focus ~ label {
+    color: var(--primary-color);
+}
+
+/* Smooth typing effect */
+#modern-input:not(:focus):not(:placeholder-shown) {
+    transition: all 0.2s ease;
+}
+
+/* Enhanced focus state */
+#modern-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1),
+                0 0 20px rgba(96, 165, 250, 0.2);
+    transform: translateY(-1px);
+}
+
+.webhook-info {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(10px);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.webhook-info.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.webhook-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+#webhook-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+#webhook-avatar.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.webhook-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.webhook-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+#webhook-name {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #fff;
+}
+
+#webhook-created {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.9rem;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.error-message.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hidden {
+    display: none;
+}
+
+.options {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.options.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--primary-light);
+}
+
+.message-input {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.message-input.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.message-input textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.message-input textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1),
+                0 0 20px rgba(96, 165, 250, 0.2);
+}
+
+.message-input .button-group {
+    display: flex;
+    gap: 10px;
+}
+
+#send-button {
+    background-color: var(--discord-color);
+}
+
+#send-button:hover {
+    background-color: #4752c4;
+}
+
+#cancel-button {
+    background-color: var(--error-color);
+}
+
+#cancel-button:hover {
+    background-color: #dc2626;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto 0;
+}
+
+.action-buttons button {
+    flex: 1;
+    max-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    height: 32px;
+}
+
+.action-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.action-buttons button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.action-buttons button i {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.action-buttons button:hover i {
+    opacity: 1;
+}
+
+#send-message {
+    background: rgba(88, 101, 242, 0.3);
+    border: 1px solid rgba(88, 101, 242, 0.5);
+}
+
+#send-message:hover {
+    background: rgba(88, 101, 242, 0.4);
+    border-color: rgba(88, 101, 242, 0.7);
+}
+
+#delete-webhook {
+    background: rgba(237, 66, 69, 0.3);
+    border: 1px solid rgba(237, 66, 69, 0.5);
+}
+
+#delete-webhook:hover {
+    background: rgba(237, 66, 69, 0.4);
+    border-color: rgba(237, 66, 69, 0.7);
+}
+
+#own-button {
+    background: rgba(255, 215, 0, 0.3);
+    border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+#own-button:hover {
+    background: rgba(255, 215, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.7);
+}
+
+.action-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Add crown animation */
+@keyframes crownPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+#own-button:not(:disabled) i {
+    animation: crownPulse 2s infinite;
+}
+
+#send-message:hover i {
+    animation: slideRight 0.3s ease;
+}
+
+#delete-webhook:hover i {
+    animation: shake 0.3s ease;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    white-space: nowrap;
+}
+
+#delay-input {
+    flex: 1;
+    min-width: 120px;
+    max-width: 180px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+#send-button, #spam-button {
+    background: rgba(88, 101, 242, 0.3);
+}
+
+#send-button:hover, #spam-button:hover {
+    background: rgba(88, 101, 242, 0.4);
+}
+
+#stop-button {
+    background: rgba(237, 66, 69, 0.3);
+}
+
+#stop-button:hover {
+    background: rgba(237, 66, 69, 0.4);
+}
+
+/* Add spinning animation for spam icon when active */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#spam-button:not(:disabled) i {
+    animation: spin 2s linear infinite;
+}
+
+/* Add shake animation for stop button hover */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+    100% { transform: translateX(0); }
+}
+
+#stop-button:hover i {
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(4px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.button-group button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.button-group button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#delay-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    outline: none;
+}
+
+#delay-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.message-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.tab-button.active {
+    background: rgba(88, 101, 242, 0.3);
+    border-color: rgba(88, 101, 242, 0.3);
+}
+
+.tab-button:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.tab-content.hidden {
+    display: flex;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+}
+
+.embed-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.embed-fields input[type="text"],
+.embed-fields input[type="url"] {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.embed-fields input[type="text"]:focus,
+.embed-fields input[type="url"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.embed-color-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.embed-color-group input[type="color"] {
+    width: 50px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+}
+
+.embed-color-group input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.embed-color-group input[type="color"]::-webkit-color-swatch {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.embed-color-group label {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.embed-author,
+.embed-footer {
+    display: flex;
+    gap: 8px;
+}
+
+.embed-author input,
+.embed-footer input {
+    flex: 1;
+}
+
+/* Add disabled states for embed inputs */
+.embed-fields input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.webhook-info.visible ~ .input-group,
+.message-input.visible ~ .input-group {
+    height: auto;
+}
+
+.webhook-info.visible,
+.message-input.visible {
+    animation: fadeIn 0.4s ease-out forwards;
+} 

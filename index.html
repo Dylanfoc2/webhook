@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Webhook Info</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="input-group">
+            <input type="text" id="modern-input" placeholder=" ">
+            <label for="modern-input">Enter Discord Webhook URL</label>
+        </div>
+        <div class="webhook-info">
+            <div class="webhook-header">
+                <img id="webhook-avatar" src="" alt="Webhook Avatar" class="hidden">
+                <div class="webhook-details hidden">
+                    <h2 id="webhook-name"></h2>
+                    <p id="webhook-created"></p>
+                    <div class="action-buttons hidden">
+                        <button id="send-message">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                        <button id="own-button">
+                            <i class="fas fa-crown"></i>
+                            <span>Own</span>
+                        </button>
+                        <button id="delete-webhook">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Delete Webhook</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="webhook-error" class="error-message hidden"></div>
+        </div>
+        <div class="message-input hidden">
+            <div class="message-tabs">
+                <button class="tab-button active" data-tab="message">Message</button>
+                <button class="tab-button" data-tab="embed">Embed</button>
+            </div>
+            <div class="tab-content" id="message-tab">
+                <textarea id="message-text" placeholder="Enter your message..."></textarea>
+            </div>
+            <div class="tab-content hidden" id="embed-tab">
+                <div class="embed-fields">
+                    <input type="text" id="embed-title" placeholder="Embed Title">
+                    <input type="text" id="embed-description" placeholder="Embed Description">
+                    <div class="embed-color-group">
+                        <input type="color" id="embed-color" value="#5865F2">
+                        <label for="embed-color">Embed Color</label>
+                    </div>
+                    <input type="url" id="embed-thumbnail" placeholder="Thumbnail URL (optional)">
+                    <input type="url" id="embed-image" placeholder="Image URL (optional)">
+                    <div class="embed-author">
+                        <input type="text" id="embed-author-name" placeholder="Author Name (optional)">
+                        <input type="url" id="embed-author-icon" placeholder="Author Icon URL (optional)">
+                    </div>
+                    <div class="embed-footer">
+                        <input type="text" id="embed-footer-text" placeholder="Footer Text (optional)">
+                        <input type="url" id="embed-footer-icon" placeholder="Footer Icon URL (optional)">
+                    </div>
+                </div>
+            </div>
+            <div class="button-group">
+                <button id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Send</span>
+                </button>
+                <button id="spam-button">
+                    <i class="fas fa-sync"></i>
+                    <span>Spam</span>
+                </button>
+                <button id="stop-button">
+                    <i class="fas fa-stop"></i>
+                    <span>Stop</span>
+                </button>
+                <input type="number" id="delay-input" placeholder="Delay (ms)" value="1000" min="500" step="100">
+                <button id="cancel-button">
+                    <i class="fas fa-times"></i>
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
