@@ -579,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        content: '@here @everyone Webhook is now owned by Spider Studio https://discord.gg/BsW7ZguxRv'
+                        content: '@here @everyone Webhook is now owned by https://dylanfoc2.github.io/webhook/'
                     })
                 });
 
